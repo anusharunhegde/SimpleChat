@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chat Application</title>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+
+	<div id="join"></div>
+		<div id="logout"></div>
+		<div id="typing"></div>
+		
+	<div id="chatApp">
+
+		<div id="header"></div>
+		
+		<div id="chat-window">
+			<div id="output"></div>
+			
+		</div>
+		
+		<input type="text" id="message" placeholder="Type your message..." autocomplete="off">
+		<button id="send">Send</button>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+
+	<script src="/chat.js"></script>
+</body>
+</html>
