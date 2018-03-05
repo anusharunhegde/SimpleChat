@@ -1,6 +1,7 @@
 # SimpleChat
 
 a simple chat application using socket.io and nodejs
+http://ec2-13-127-206-86.ap-south-1.compute.amazonaws.com/
 
 # Technologies used
    
