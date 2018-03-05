@@ -3,17 +3,15 @@
 a simple chat application using socket.io and nodejs
 
 # Technologies used
-
-    Socket.io
-    NodeJs
-    ExpressJs
+    
+    socket.io
+    NodeJS
+    ExpressJS
     MongoDB
-
+    
 # To run mongodb
 
-    Go to the installed mongodb folder via a command prompt or terminal.
-    Go to the bin folder
-    Type mongod. The server will start
+   
 
 # Installing dependencies
 
