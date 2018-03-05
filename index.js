@@ -20,7 +20,7 @@ app.use(express.static('public'));
 
 
 //connect to mongodb
-const dbPath  = "mongodb://localhost/chatDb";
+const dbPath  = "mongodb://anusharunhegde:angrybird72@ds153948.mlab.com:53948/chatdb";
 
 // connect with database
 db = mongoose.connect(dbPath);
