@@ -11,6 +11,11 @@ var Chat = require('./Chat-model');
 
 const chatModel = mongoose.model('Chat');
 
+const events = require('events');
+
+const myEventEmitter = new events.EventEmitter();
+
+
 //===========================Application Set Up=================================================================//
 
 
@@ -51,16 +56,40 @@ io.on('connection',function(socket){
 			
 		});
 
+			 function saveHandler(data){
+
+			 	const newMsg = new chatModel({msg: data,user:socket.user});
+				 	newMsg.save(function(err){
+				 		
+				 		if(err){throw err;}
+
+						console.log("successful in saving data");
+
+						//console.trace("daa");
+						 io.sockets.emit('newChat',{msg: data, user: socket.user});		
+
+						 
+					});
+				
+				//myEventEmitter.removeListener('dbSave',saveHandler);
+				
+			 }
+
+			 myEventEmitter.on('dbSave',saveHandler);
 		
 			 socket.on('start chat', function(data){//====================chat event
 			 	console.log(data);
-			 	const newMsg = new chatModel({msg: data,user:socket.user});
+			 	
+			 	myEventEmitter.emit('dbSave',data);
+
+
+			 	/*const newMsg = new chatModel({msg: data,user:socket.user});
 			 	newMsg.save(function(err){
 			 		if (err) {throw err;}
 			 		else{
 			 			io.sockets.emit('newChat',{msg: data, user: socket.user});
 			 		}
-			 	});
+			 	});*/
 			 }); 
 
 			 
