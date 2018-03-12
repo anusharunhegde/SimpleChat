@@ -3,13 +3,37 @@
 var socket = io();
 
 
-var user = prompt('enter your name');
 
-if(user!= null){
+swal({
+  title: "Welcome",
+  text: "Enter your name:",
+  type: "input",
+  showCancelButton: false,
+  closeOnConfirm: false,
+  inputPlaceholder: "your sweet name"
+}, function (user) {
+  if (user === false) return false;
+  if (user === "") {
+    swal.showInputError("we need your name!");
+    return false
+  }
+  else{
 
-	$('#header').html('<h1 class="user">'+user+'</h1>');
-	socket.emit('user',user);
-}
+  	$('#chatHeader').html('<h1 >'+user+'</h1>');
+	socket.emit('user',user,function(checkIfExists){
+		if(checkIfExists){
+			swal.close();
+		}
+		else{
+
+			swal.showInputError("This username exists!!");
+		}
+	});
+	
+  }
+  
+});
+
 
 socket.on('newuser',function(user){//===================================================user joined event
 
@@ -65,7 +89,7 @@ $('#message').on('keypress',function(){//=======================================
 socket.on('newChat',function(data){//===========================================================chat event
 
 
-	$('#output').append('<p><strong>'+data.user+':</strong>'+data.msg+'</p>');
+	$('#output  #out').append('<li class="clearfix"><p><strong class="primary-font pull-right">'+data.user+'</strong><span class="msg">'+ data.msg+'</span></p></li>');
 
 });
 
@@ -98,13 +122,13 @@ socket.on('oldmsgs',function(olddata){
 
 		for(i=olddata.length-1;i>=0;i--){
 
-			content+='<p><strong>'+olddata[i].user+':</strong>'+olddata[i].msg+'</p>';
+			content+='<li class="clearfix"><p><strong class="primary-font pull-right">'+olddata[i].user+'</strong><span class="msg">'+olddata[i].msg+'</span></p></li>';
 		
 		}	
-		$('#output').html(content);
+		$('#output  #out').html(content);
 	}
 });
 
 ///infinite scrolling===============
 
-$("#chat-window").animate({ scrollTop: $("#chat-window")[0].scrollHeight }, 1000);
+$(".panel-body").animate({ scrollTop: $(".panel-body")[0].scrollHeight }, 1000);

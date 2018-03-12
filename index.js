@@ -15,6 +15,19 @@ const events = require('events');
 
 const myEventEmitter = new events.EventEmitter();
 
+myEventEmitter.on('dbSave', function(data){
+	var newMsg = new chatModel({msg: data.msg,user:data.user});
+	newMsg.save(function (err) {
+	  if (err) {
+		  console.log(err.message);
+	  } else {
+		console.log("Message Inserted successfully");
+		io.sockets.emit('newChat',{msg: data.msg, user: data.user});		
+		  
+	  }
+	});
+});
+
 
 //===========================Application Set Up=================================================================//
 
@@ -40,7 +53,7 @@ mongoose.connection.once('open', function() {
 //socket setup
 
 
-
+var users={};
 
 io.on('connection',function(socket){
 
@@ -48,48 +61,32 @@ io.on('connection',function(socket){
 
 		
 
-		socket.on('user',function(username){//=======================================user event
+		socket.on('user',function(username,check){//=======================================user event
 
-			socket.user = username;
-			socket.broadcast.emit('newuser',socket.user);
+			if(username in users){
+				check(false);
+			}
+			else{
 
+				check(true);
+				socket.user = username;
+				users[socket.user]=socket.id;
+				console.log(users);
+				socket.broadcast.emit('newuser',socket.user);
+
+			}
 			
 		});
 
-			 function saveHandler(data){
-
-			 	const newMsg = new chatModel({msg: data,user:socket.user});
-				 	newMsg.save(function(err){
-				 		
-				 		if(err){throw err;}
-
-						console.log("successful in saving data");
-
-						//console.trace("daa");
-						 io.sockets.emit('newChat',{msg: data, user: socket.user});		
-
-						 
-					});
-				
-				//myEventEmitter.removeListener('dbSave',saveHandler);
-				
-			 }
-
-			 myEventEmitter.on('dbSave',saveHandler);
+			
 		
 			 socket.on('start chat', function(data){//====================chat event
 			 	console.log(data);
 			 	
-			 	myEventEmitter.emit('dbSave',data);
+			 	var msg = {"msg":data,"user":socket.user};
+			 	myEventEmitter.emit('dbSave',msg);
 
 
-			 	/*const newMsg = new chatModel({msg: data,user:socket.user});
-			 	newMsg.save(function(err){
-			 		if (err) {throw err;}
-			 		else{
-			 			io.sockets.emit('newChat',{msg: data, user: socket.user});
-			 		}
-			 	});*/
 			 }); 
 
 			 
@@ -113,6 +110,10 @@ io.on('connection',function(socket){
 
 			console.log(' disconnected');
 			socket.broadcast.emit('loggedout',socket.user+' has left.....');
+
+			delete users[socket.user];
+
+
 		});
 });
 

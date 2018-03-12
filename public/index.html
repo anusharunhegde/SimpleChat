@@ -2,30 +2,73 @@
 <html>
 <head>
 	<title>Chat Application</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css" />
+
 	<link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
 
-	<div id="join"></div>
-		<div id="logout"></div>
-		<div id="typing"></div>
-		
-	<div id="chatApp">
-
-		<div id="header"></div>
-		
-		<div id="chat-window">
-			<div id="output"></div>
-			
-		</div>
-		
-		<input type="text" id="message" placeholder="Type your message..." autocomplete="off">
-		<button id="send">Send</button>
-	</div>
+	
 
 
+<div class="container">
+    <div class="row mainrow" style="margin-top: 20px;">
+        <div class="col-xs-12">
+
+            <div class="panel panel-primary">
+
+                <div class="panel-heading" >
+                	 <div id="typing"></div>
+                    <div id="chatHeader"><span  class="glyphicon glyphicon-comment"></span></div>
+                    
+                    <div id="join"></div>
+					<div id="logout"></div>
+					
+
+                </div><!-- end of panel header -->
+
+                <div class="panel-body" >
+
+                    <div id="output"></div>
+
+                    <ul class="chat"  id="output">
+
+                        <div class="left" id="out">
+
+                        	
+                        </div>
+                      
+                     </ul>
+
+
+
+
+                </div><!-- end of panel body -->
+
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..."
+                          autocomplete="off" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="send">Send</button>
+                        </span>
+                    </div>
+                </div><!-- end of panel footer -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js"></script>
 
 	<script src="/chat.js"></script>
 </body>
